@@ -74,5 +74,11 @@ class UserActionFetcher:
                     break
         print(f"总共获取并保存了 {total_count} 个时间戳到 {output_file}") 
     
-    def __del__(self):
+    def close(self):
         self.page.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
