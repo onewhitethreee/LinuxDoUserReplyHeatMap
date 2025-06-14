@@ -70,7 +70,7 @@ class HeatmapGenerator:
             return False
         date_counts = Counter(filtered_dates)
         if not title:
-            title = f"{self.username} 的回复数据热力图" if self.username else "回复数据热力图"
+            title = f"{self.username} Reply data heatmap" if self.username else "Reply data heatmap"
 
         self.create_heatmap(date_counts, one_year_ago, today, title, save_path=save_path)
         return True
@@ -156,8 +156,8 @@ class HeatmapGenerator:
                                   boxstyle="round,pad=0.08,rounding_size=0.18",
                                   facecolor=color, edgecolor='white', linewidth=1)
             ax.add_patch(rect)
-        ax.text(legend_x_start - 1, legend_y + 0.2, '活动较少', ha='right', va='center', fontsize=9)
-        ax.text(legend_x_start + 6 + 0.5, legend_y + 0.2, '活动较多', ha='left', va='center', fontsize=9)
+        ax.text(legend_x_start - 1, legend_y + 0.2, 'Less activity', ha='right', va='center', fontsize=9)
+        ax.text(legend_x_start + 6 + 0.5, legend_y + 0.2, 'More activity', ha='left', va='center', fontsize=9)
         plt.tight_layout()
         if save_path:
             # 保存 PNG

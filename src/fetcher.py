@@ -73,3 +73,6 @@ class UserActionFetcher:
                     print(f"请求出错: {e}")
                     break
         print(f"总共获取并保存了 {total_count} 个时间戳到 {output_file}") 
+    
+    def __del__(self):
+        self.page.close()
