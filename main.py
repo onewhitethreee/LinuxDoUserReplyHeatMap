@@ -29,8 +29,8 @@ if __name__ == "__main__":
     5 = REPLY (回复)
     """
     offset = 30
-    # browser_path = None
-    browser_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" # 此处为启动edge浏览器
+    browser_path = None
+    # browser_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" # 此处为启动edge浏览器
     
     proxy_conf = {
         "host": os.getenv("PROXY_HOST"),
@@ -42,6 +42,7 @@ if __name__ == "__main__":
     
     # 如果有任意一项为空，则不启用代理
     if not all([proxy_conf["host"], proxy_conf["port"], proxy_conf["user"], proxy_conf["password"]]):
+        logger.info("没有配置代理，不启用代理")
         proxy_conf = None
     
     turnstile_patch_path = "turnstilePatch"  
