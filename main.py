@@ -48,7 +48,7 @@ if __name__ == "__main__":
     turnstile_patch_path = "turnstilePatch"  
     x_months_ago = datetime.now() - timedelta(days=args.days)
     
-    print(f"获取 {args.username} 的 {x_months_ago.strftime('%Y-%m-%d %H:%M:%S')} 之后的数据")
+    logger.info(f"获取 {args.username} 的 {x_months_ago.strftime('%Y-%m-%d %H:%M:%S')} 之后的数据")
     output_file = f"timestamps_{username}.txt"
 
     browser_mgr = BrowserManager(browser_path, proxy_conf, turnstile_patch_path)
@@ -67,8 +67,8 @@ if __name__ == "__main__":
     fetcher.fetch_and_save(x_months_ago, output_file, parse_timestamp)
 
     # 数据抓取完成后生成热力图
-    print("正在生成热力图...")
+    logger.info("正在生成热力图...")
     generator = HeatmapGenerator(output_file)
     success = generator.create_github_heatmap(save_path="heatmap_card.png")
     if success:
-        print(f"热力图已保存为 heatmap_card.png")
+        logger.info(f"热力图已保存为 heatmap_card.png")

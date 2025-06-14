@@ -30,7 +30,7 @@ class UserActionFetcher:
         with open(output_file, 'w', encoding='utf-8') as f:
             while True:
                 url = f"{self.base_url}?offset={offset}&username={self.username}&filter={self.filter_type}"
-                print(f"正在请求: offset={offset}")
+                self.logger.info(f"正在请求: offset={offset}")
                 try:
                     self.page.get(url)
                     status_code = self.get_page_status_js()
@@ -46,7 +46,7 @@ class UserActionFetcher:
                     current_count = len(current_actions)
                     if current_count == 0:
                         break
-                    print(f"获取到 {current_count} 条数据")
+                    self.logger.info(f"获取到 {current_count} 条数据")
                     has_old_data = False
                     for item in current_actions:
                         try:
@@ -56,23 +56,23 @@ class UserActionFetcher:
                                 f.write(created_at + '\n')
                                 f.flush()
                                 total_count += 1
-                                print(f"  ✓ {created_at}")
+                                self.logger.info(f"  ✓ {created_at}")
                             else:
-                                print(f"  ✗ {created_at} (超出范围)")
+                                self.logger.info(f"  ✗ {created_at} (超出范围)")
                                 has_old_data = True
                         except KeyError:
-                            print("  ? 缺少 created_at 字段")
+                            self.logger.info("  ? 缺少 created_at 字段")
                             continue
                     if has_old_data:
-                        print("已获取完三个月内的所有数据")
+                        self.logger.info("已获取完三个月内的所有数据")
                         break
                     if current_count < self.page_size:
                         break
                     offset += self.page_size
                 except Exception as e:
-                    print(f"请求出错: {e}")
+                    self.logger.error(f"请求出错: {e}")
                     break
-        print(f"总共获取并保存了 {total_count} 个时间戳到 {output_file}") 
+        self.logger.info(f"总共获取并保存了 {total_count} 个时间戳到 {output_file}") 
     
     def close(self):
         self.page.close()

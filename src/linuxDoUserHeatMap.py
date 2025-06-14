@@ -4,9 +4,8 @@
 @description: 根据linux.do的回复数据，生成最近热力图
 @usage: python linuxDoUserHeatMap.py
 """
+from venv import logger
 import matplotlib
-matplotlib.rcParams['font.sans-serif'] = ['SimHei']  # 黑体，适合中文
-matplotlib.rcParams['axes.unicode_minus'] = False    # 解决负号显示为方块的问题
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -43,14 +42,14 @@ class HeatmapGenerator:
                     if timestamp:
                         timestamps.append(timestamp)
         except FileNotFoundError:
-            print(f"文件 {filename} 不存在")
+            logger.error(f"文件 {filename} 不存在")
         except Exception as e:
-            print(f"读取文件时出错: {e}")
+            logger.error(f"读取文件时出错: {e}")
         return timestamps
 
     def create_github_heatmap(self, title=None, save_path=None):
         if not self.timestamps:
-            print("没有有效的时间戳数据")
+            logger.error("没有有效的时间戳数据")
             return False
         dates = []
         for ts in self.timestamps:
@@ -60,13 +59,13 @@ class HeatmapGenerator:
             except:
                 continue
         if not dates:
-            print("没有有效的时间戳数据")
+            logger.error("没有有效的时间戳数据")
             return False
         today = datetime.now().date()
         one_year_ago = today - timedelta(days=365)
         filtered_dates = [d for d in dates if one_year_ago <= d <= today]
         if not filtered_dates:
-            print(f"在{one_year_ago}到{today}区间没有找到数据")
+            logger.error(f"在{one_year_ago}到{today}区间没有找到数据")
             return False
         date_counts = Counter(filtered_dates)
         if not title:
