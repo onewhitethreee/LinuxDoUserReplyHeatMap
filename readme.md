@@ -26,6 +26,13 @@
 pip install -r requirements.txt
 ```
 
+如果你为linux用户，可以使用uv管理python环境，示例如下：
+```
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
+```
+
 ## 使用方法
 
 ```bash
